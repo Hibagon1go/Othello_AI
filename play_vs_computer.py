@@ -1,4 +1,4 @@
-import boards, player
+import boards, nn
 
 class Othello:
 
@@ -9,7 +9,7 @@ class Othello:
         while B_or_W != "BLACK" and B_or_W != "WHITE": # 正しい入力がなされるまでループ
             B_or_W = input("先手を選択する場合BLACK, 後手を選ぶ場合WHITEと入力して下さい。") # ユーザーの先手後手を選択
         
-        computer = player.Computer() # コンピューターインスタンスを生成
+        computer = nn.NN() # コンピューターインスタンスを生成
 
         total_moves = 0 # 総手数を初期化
 
@@ -47,9 +47,10 @@ class Othello:
                     board.print()
                     print("コンピューターは考え中です...")
 
-                    y, x = computer.random_think("WHITE", board) # コンピューターの打つマスを決定し、受け取り
+                    y, x = computer.nn_think(board) # コンピューターの打つマスを決定し、受け取り
 
                     board.reverse_othello("WHITE", y, x) 
+                    board.print()
 
             else: # ユーザーが後手の場合
                 # -----------------------------------------コンピューターの手番の処理----------------------------------------- #
@@ -65,7 +66,7 @@ class Othello:
                     board.print()
                     print("コンピューターは考え中です...")
 
-                    y, x = computer.random_think("BLACK", board)
+                    y, x = computer.nn_think(board)
 
                     board.reverse_othello("BLACK", y, x)
                     board.print() 
@@ -96,8 +97,8 @@ class Othello:
         blacks, whites = board.count_stones()
         board.print()
         print("----------最終結果----------")
-        print("あなた:{}, コンピューター:{}".format(blacks, whites))
         if B_or_W == "BLACK":
+            print("あなた:{}, コンピューター:{}".format(blacks, whites))
             if blacks > whites:
                 print("あなたの勝ちです。")
             elif whites > blacks:
@@ -105,6 +106,7 @@ class Othello:
             else:
                  print("引き分けです。")
         elif B_or_W == "WHITE":
+            print("コンピューター:{}, あなた:{}".format(blacks, whites))
             if blacks > whites:
                 print("コンピューターの勝ちです。")
             elif whites > blacks:

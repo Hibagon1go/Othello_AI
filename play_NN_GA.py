@@ -34,7 +34,10 @@ class Othello:
        
         self.show_result(B_or_W, board) # 最終結果表示
         blacks, whites = board.count_stones()
-        return np.array([blacks - whites, computer1.w1, computer1.w2])
+        score_and_w_matrix = np.array([blacks - whites])
+        tmp = np.append(computer1.w1.flatten(), computer1.w2.flatten())
+        score_and_w_matrix = np.append(score_and_w_matrix, tmp)
+        return score_and_w_matrix
 
 
     def show_result(self, B_or_W, board):
@@ -49,7 +52,8 @@ class Othello:
         else:
             print("引き分けです。")
 
-
+if __name__ == '__main__':
+    Othello().play()
     
 
 
