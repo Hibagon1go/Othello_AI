@@ -25,14 +25,13 @@ class Othello:
                     blacks, whites = board.count_stones()
                     print("あなた:{},コンピューター:{}".format(blacks, whites))
                     board.print()
-                    
+
                     y, x = 100, 100 # ユーザーの打つマスを初期化
                     while not board.is_OK("BLACK", y, x): # ユーザーがルール上OKの場所に打つまでループ
                         y, x = map(int,input("あなたの手を入力して下さい。(上から何行目?,左から何列目?)").split()) # ユーザーの打つマスを受け取り
                         y -= 1
                         x -= 1
 
-                    # y, x = computer.think("BLACK", board) # コンピューターの打つマスを決定し、受け取り
                     board.reverse_othello("BLACK", y, x) # オセロをひっくり返し、盤面を更新
 
                 # -----------------------------------------コンピューターの手番の処理----------------------------------------- #
@@ -48,7 +47,7 @@ class Othello:
                     board.print()
                     print("コンピューターは考え中です...")
 
-                    y, x = computer.think("WHITE", board) # コンピューターの打つマスを決定し、受け取り
+                    y, x = computer.random_think("WHITE", board) # コンピューターの打つマスを決定し、受け取り
 
                     board.reverse_othello("WHITE", y, x) 
 
@@ -66,7 +65,7 @@ class Othello:
                     board.print()
                     print("コンピューターは考え中です...")
 
-                    y, x = computer.think("BLACK", board)
+                    y, x = computer.random_think("BLACK", board)
 
                     board.reverse_othello("BLACK", y, x)
                     board.print() 
