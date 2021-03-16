@@ -19,7 +19,7 @@ class Learning:
                 new_first, new_second = self.crossover(gas[first], gas[second])
                 new_gas = np.append(new_gas, new_first, axis = 0)
                 new_gas = np.append(new_gas, new_second, axis = 0)
-        new_gas = self.mutation(new_gas, 10, 30)
+        new_gas = self.mutation(new_gas, 0.1, 0.3)
         
         return new_gas
 
@@ -56,12 +56,10 @@ class Learning:
         return select_list
         
     def crossover(self, ga_first, ga_second):
-        point_first = random.randint(0, 18)
+        point_first = random.randint(1, 18)
         point_second = random.randint(point_first, 18)
-        first = ga_first[point_first]
-        second = ga_second[point_second]
-        new_first = np.concatenate([first[:point_first], second[point_first:point_second], first[point_second:]]).reshape(1, 19)
-        new_second = np.concatenate([second[:point_first], first[point_first:point_second], second[point_second:]]).reshape(1, 19)
+        new_first = np.concatenate([ga_first[:point_first], ga_second[point_first:point_second], ga_first[point_second:]]).reshape(1, 19)
+        new_second = np.concatenate([ga_second[:point_first], ga_first[point_first:point_second], ga_second[point_second:]]).reshape(1, 19)
         return new_first, new_second
 
     def mutation(self, gas, individual_mutation, genom_mutation):
@@ -69,11 +67,13 @@ class Learning:
         for i in gas:
             if individual_mutation > (random.randint(0, 100) / 100.0):
                 genom_list = np.array([])
-                for genom in i:
+                for genom in i[1:]:
+                    mutation_genom = np.array([i[0]])
                     if genom_mutation > (random.randint(0, 100) / 100.0):
-                        genom_list = np.append(genom_list, np.random.normal(0.0,1.0))  
+                        mutation_genom = np.append(mutation_genom, np.random.normal(0.0,1.0))  
                     else:
-                        genom_list = np.append(genom_list, genom) 
+                        mutation_genom = np.append(mutation_genom, genom) 
+                    ga_list = np.append(ga_list, mutation_genom.reshape(1, 19), axis = 0)
             else:
                 ga_list = np.append(ga_list, i.reshape(1, 19), axis = 0)
         return ga_list       
