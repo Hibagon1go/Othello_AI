@@ -3,7 +3,7 @@ import numpy as np
 
 class Othello:
 
-    def play(self):
+    def play(self, w1, w2):
         board = boards.Board() # オセロ盤インスタンスを生成
 
         B_or_W = "BLACK"
@@ -20,7 +20,7 @@ class Othello:
                 
             else:
                 total_moves += 1 
-                y, x = computer1.nn_think(board) # コンピューター1の打つマスを決定し、受け取り
+                y, x = computer1.nn_think(w1, w2, board) # コンピューター1の打つマスを決定し、受け取り
                 board.reverse_othello("BLACK", y, x) 
  
             # -----------------------------------------コンピューター2の手番の処理----------------------------------------- #
@@ -35,7 +35,7 @@ class Othello:
         self.show_result(B_or_W, board) # 最終結果表示
         blacks, whites = board.count_stones()
         score_and_w_matrix = np.array([blacks - whites])
-        tmp = np.append(computer1.w1.flatten(), computer1.w2.flatten())
+        tmp = np.append(w1.flatten(), w2.flatten())
         score_and_w_matrix = np.append(score_and_w_matrix, tmp)
         return score_and_w_matrix
 
