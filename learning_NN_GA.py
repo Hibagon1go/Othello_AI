@@ -14,6 +14,7 @@ class Learning:
         elite, others = self.select_elite(score_and_w_matrixes, 3)
         others = self.select_roulette(others, 2)
         gas = np.append(elite, others, axis = 0)
+        new_gas = np.empty((0, 19), float)
         for j in range(5):
                 first, second = np.random.randint(0, 5, 2)
                 new_first, new_second = self.crossover(gas[first], gas[second])
