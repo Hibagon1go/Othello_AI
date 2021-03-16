@@ -1,4 +1,4 @@
-import boards, player, nn
+import boards, random_com, nn
 import numpy as np
 
 class Othello:
@@ -9,7 +9,7 @@ class Othello:
         B_or_W = "BLACK"
         
         computer1 = nn.NN() # コンピューター1インスタンスを生成
-        computer2 = player.Computer() # コンピューター2インスタンスを生成
+        computer2 = random_com.Computer() # コンピューター2インスタンスを生成
 
         total_moves = 0 # 総手数を初期化
 
