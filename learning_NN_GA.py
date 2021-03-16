@@ -11,11 +11,11 @@ class Learning:
 
     def one_cycle(self, gas):
         score_and_w_matrixes = self.calc_score_and_w_matrix(gas)
-        elite, others = self.select_elite(score_and_w_matrixes, 3)
-        others = self.select_roulette(others, 2)
+        elite, others = self.select_elite(score_and_w_matrixes, 10)
+        others = self.select_roulette(others, 10)
         gas = np.append(elite, others, axis = 0)
         new_gas = np.empty((0, 19), float)
-        for j in range(5):
+        for j in range(50):
                 first, second = np.random.randint(0, 5, 2)
                 new_first, new_second = self.crossover(gas[first], gas[second])
                 new_gas = np.append(new_gas, new_first, axis = 0)
@@ -27,7 +27,7 @@ class Learning:
 
     def calc_score_and_w_matrix(self, gas):
         score_and_w_matrixes = np.empty((0, 19), float)
-        for i in range(10):
+        for i in range(100):
             w1, w2 = self.receive_w_matrix(gas[i])
             score_and_w_matrixes = np.append(score_and_w_matrixes, play_NN_GA.Othello().play(w1, w2).reshape(1, 19), axis = 0)
         
@@ -41,7 +41,7 @@ class Learning:
     
     def select_roulette(self, others, roulette_length):
         select_list = np.empty((0, 19), float)
-        abs_min_score = abs(others[6][0])
+        abs_min_score = abs(others[9][0])
         roulette_box = []
         i = 0
         for other in others:
@@ -73,7 +73,7 @@ class Learning:
                         mutation_genom = np.append(mutation_genom, np.random.normal(0.0,1.0))  
                     else:
                         mutation_genom = np.append(mutation_genom, genom) 
-                        
+
                 ga_list = np.append(ga_list, mutation_genom.reshape(1, 19), axis = 0)
             else:
                 ga_list = np.append(ga_list, i.reshape(1, 19), axis = 0)
@@ -83,13 +83,13 @@ class Learning:
 """
 if __name__ == '__main__':
     gas = np.empty((0, 19), float)
-    for i in range(10):
+    for i in range(100):
         tmp1 = np.array([0])
         tmp2 = np.random.rand(18)
         tmp = np.append(tmp1, tmp2)
         gas = np.append(gas, tmp.reshape(1, 19), axis = 0)
 
-    for i in range(5):
+    for i in range(100):
         gas = Learning().one_cycle(gas)
     
     col_num = 0
