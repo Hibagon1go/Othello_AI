@@ -22,6 +22,7 @@ class Othello:
                 total_moves += 1 
                 y, x = computer1.nn_think(w1, w2, board) # コンピューター1の打つマスを決定し、受け取り
                 board.reverse_othello("BLACK", y, x) 
+                board.print()
  
             # -----------------------------------------コンピューター2の手番の処理----------------------------------------- #
             if board.is_pass("WHITE"): 
@@ -31,6 +32,7 @@ class Othello:
                 total_moves += 1 
                 y, x = computer2.random_think("WHITE", board) # コンピューター2の打つマスを決定し、受け取り
                 board.reverse_othello("WHITE", y, x)
+                board.print()
        
         self.show_result(B_or_W, board) # 最終結果表示
         blacks, whites = board.count_stones()

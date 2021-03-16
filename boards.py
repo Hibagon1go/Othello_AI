@@ -37,9 +37,7 @@ class Board:
         if B_or_W == "BLACK":
             for dy in Dy:
                 for dx in Dx:
-                    tmp_reversible_othellos = np.empty((0,2), int)
-                    if (y == 0 and dy < 0) or (y == 7 and dy > 0) or (x == 0 and dx < 0) or (x == 7 and dx > 0): 
-                        continue  
+                    tmp_reversible_othellos = np.empty((0,2), int) 
                     if dy == dx == 0:
                         continue
                     else:
@@ -183,21 +181,20 @@ class Board:
                                     else:
                                         break
                                 
-                                # 縁でないマスに石を置き、探索が端に達していない場合
+                                # 探索が端に達していない場合
                                 elif self.access(y+(dy*i), x+(dx*i)) == BLACK:
                                     reversible_othellos = np.append(reversible_othellos, tmp_reversible_othellos, axis = 0)
                                     break
                                 elif self.access(y+(dy*i), x+(dx*i)) == WHITE:
                                     tmp_reversible_othellos = np.append(tmp_reversible_othellos, np.array([y+(dy*i), x+(dx*i)]).reshape(1,2), axis = 0)  
                                 else:
-                                    break                   
+                                    break 
+               
 
         else:
             for dy in Dy:
                 for dx in Dx:
                     tmp_reversible_othellos = np.empty((0,2), int)
-                    if (y == 0 and dy < 0) or (y == 7 and dy > 0) or (x == 0 and dx < 0) or (x == 7 and dx > 0):
-                        continue  
                     if dy == dx == 0:
                         continue
                     else:
@@ -341,7 +338,7 @@ class Board:
                                     else:
                                         break
                                 
-                                # 縁でないマスに石を置き、探索が端に達していない場合
+                                # 探索が端に達していない場合
                                 elif self.access(y+(dy*i), x+(dx*i)) == WHITE:
                                     reversible_othellos = np.append(reversible_othellos, tmp_reversible_othellos, axis = 0)
                                     break
@@ -349,6 +346,7 @@ class Board:
                                     tmp_reversible_othellos = np.append(tmp_reversible_othellos, np.array([y+(dy*i), x+(dx*i)]).reshape(1,2), axis = 0)  
                                 else:
                                     break                   
+                        
 
         return reversible_othellos              
 
