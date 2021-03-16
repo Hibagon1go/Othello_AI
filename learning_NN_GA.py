@@ -73,7 +73,8 @@ class Learning:
                         mutation_genom = np.append(mutation_genom, np.random.normal(0.0,1.0))  
                     else:
                         mutation_genom = np.append(mutation_genom, genom) 
-                    ga_list = np.append(ga_list, mutation_genom.reshape(1, 19), axis = 0)
+                        
+                ga_list = np.append(ga_list, mutation_genom.reshape(1, 19), axis = 0)
             else:
                 ga_list = np.append(ga_list, i.reshape(1, 19), axis = 0)
         return ga_list       
