@@ -11,11 +11,11 @@ class Learning:
 
     def one_cycle(self, gas):
         score_and_w_matrixes = self.calc_score_and_w_matrix(gas)
-        elite, others = self.select_elite(score_and_w_matrixes, 5)
-        others = self.select_roulette(others, 5)
+        elite, others = self.select_elite(score_and_w_matrixes, 3)
+        others = self.select_roulette(others, 2)
         gas = np.append(elite, others, axis = 0)
-        for j in range(10):
-                first, second = np.random.randint(0, 10, 2)
+        for j in range(5):
+                first, second = np.random.randint(0, 5, 2)
                 new_first, new_second = self.crossover(gas[first], gas[second])
                 new_gas = np.append(new_gas, new_first, axis = 0)
                 new_gas = np.append(new_gas, new_second, axis = 0)
@@ -26,7 +26,7 @@ class Learning:
 
     def calc_score_and_w_matrix(self, gas):
         score_and_w_matrixes = np.empty((0, 19), float)
-        for i in range(20):
+        for i in range(10):
             w1, w2 = self.receive_w_matrix(gas[i])
             score_and_w_matrixes = np.append(score_and_w_matrixes, play_NN_GA.Othello().play(w1, w2).reshape(1, 19), axis = 0)
         
@@ -39,21 +39,19 @@ class Learning:
         return elite, others
     
     def select_roulette(self, others, roulette_length):
-        others_copy = copy.deepcopy(others)
-        total = 0
         select_list = np.empty((0, 19), float)
-        for other in others_copy:
-            total += other[0]
-        for i in range(roulette_length):
-            Vsum = 0
-            arrow = random.randint(0, total-1)
-            for other in others_copy:
-                Vsum += other[0]
-                if Vsum > arrow:
-                    select_list = np.append(select_list, other, axis = 0)
-                    total -= other[0]
-                    others_copy.remove(other)
-                    break
+        min_score = others[6][0]
+        roulette_box = []
+        i = 0
+        for other in others:
+            for j in range(int(other[0] + min_score + 1)):
+                roulette_box.append(i)
+            i += 1
+
+        for k in range(roulette_length):
+            idx = random.randint(0, len(roulette_box)-1)
+            choice_idx = roulette_box[idx]
+            select_list = np.append(select_list, others[choice_idx].reshape(1, 19), axis = 0)
 
         return select_list
         
@@ -62,12 +60,12 @@ class Learning:
         point_second = random.randint(point_first, 18)
         first = ga_first[point_first]
         second = ga_second[point_second]
-        new_first = np.concatenate([first[:point_first], second[point_first:point_second], first[point_second:]])
-        new_second = np.concatenate([second[:point_first], first[point_first:point_second], second[point_second:]])  
+        new_first = np.concatenate([first[:point_first], second[point_first:point_second], first[point_second:]]).reshape(1, 19)
+        new_second = np.concatenate([second[:point_first], first[point_first:point_second], second[point_second:]]).reshape(1, 19)
         return new_first, new_second
 
     def mutation(self, gas, individual_mutation, genom_mutation):
-        ga_list = np.array([])
+        ga_list = np.empty((0, 19) ,float)
         for i in gas:
             if individual_mutation > (random.randint(0, 100) / 100.0):
                 genom_list = np.array([])
@@ -77,23 +75,25 @@ class Learning:
                     else:
                         genom_list = np.append(genom_list, genom) 
             else:
-                ga_list = np.append(ga_list, i)
+                ga_list = np.append(ga_list, i.reshape(1, 19), axis = 0)
         return ga_list       
 
 
+"""
 if __name__ == '__main__':
     gas = np.empty((0, 19), float)
-    for i in range(20):
+    for i in range(10):
         tmp1 = np.array([0])
         tmp2 = np.random.rand(18)
         tmp = np.append(tmp1, tmp2)
         gas = np.append(gas, tmp.reshape(1, 19), axis = 0)
 
-    for i in range(10):
+    for i in range(5):
         gas = Learning().one_cycle(gas)
     
     col_num = 0
     gas_col_num = gas[np.argsort(gas[:, col_num])[::-1]]
     with open('NN_w_matrix.txt', 'w') as f:
         print(gas_col_num, file=f)
+"""
 

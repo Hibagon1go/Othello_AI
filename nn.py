@@ -13,6 +13,9 @@ class NN:
         dif_corners = np.count_nonzero(corners == "○") - np.count_nonzero(corners == "●")
         dif_centers = np.count_nonzero(centers == "○") - np.count_nonzero(centers == "●")
 
+        b_corners = np.count_nonzero(corners == "○")
+        w_corners = np.count_nonzero(corners == "●")
+
         blacks, whites = now_board.count_stones()
         dif_stones = blacks - whites
         num_blanks = np.count_nonzero(now_board == "×")
