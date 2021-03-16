@@ -3,8 +3,8 @@ import numpy as np
 class Board:
     
     def __init__(self):
-        BLACK = "○" 
-        WHITE = "●" 
+        BLACK = "●" 
+        WHITE = "○" 
         BLANK = "×" 
         # オセロ盤を初期化
         self.board = np.full((8, 8), BLANK)
@@ -28,8 +28,8 @@ class Board:
         return np.any(self.board == BLANK)
 
     def reversible_othello(self, B_or_W, y, x):
-        BLACK = "○" 
-        WHITE = "●" 
+        BLACK = "●" 
+        WHITE = "○" 
         # (y,x)に石を置くことでひっくり返せるマスを探して返す
         reversible_othellos = np.empty((0,2), int)
         Dx = np.array([-1, 0, 1])
@@ -386,8 +386,8 @@ class Board:
             return False
     
     def reverse_othello(self, B_or_W, Y, X):
-        BLACK = "○" 
-        WHITE = "●" 
+        BLACK = "●" 
+        WHITE = "○" 
         # 石を置き、置くことでひっくり返せる石をひっくり返した後の盤面を返す
         reversible_othellos = self.reversible_othello(B_or_W, Y, X)
         if B_or_W == "BLACK":
@@ -407,7 +407,7 @@ class Board:
 
     
     def count_stones(self): # 黒石、白石の個数をカウント
-        blacks = np.count_nonzero(self.board == "○")
-        whites = np.count_nonzero(self.board == "●") 
+        blacks = np.count_nonzero(self.board == "●")
+        whites = np.count_nonzero(self.board == "○") 
         return (blacks, whites) 
 

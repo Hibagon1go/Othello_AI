@@ -10,11 +10,11 @@ class NN:
         now_board = copy.deepcopy(board)
         corners = np.array([now_board.access(0, 0), now_board.access(0, 7), now_board.access(7, 0), now_board.access(7, 7)])
         centers = np.array([now_board.access(3, 3), now_board.access(3, 4), now_board.access(4, 3), now_board.access(4, 4)])
-        dif_corners = np.count_nonzero(corners == "○") - np.count_nonzero(corners == "●")
-        dif_centers = np.count_nonzero(centers == "○") - np.count_nonzero(centers == "●")
+        dif_corners = np.count_nonzero(corners == "●") - np.count_nonzero(corners == "○")
+        dif_centers = np.count_nonzero(centers == "●") - np.count_nonzero(centers == "○")
 
-        b_corners = np.count_nonzero(corners == "○")
-        w_corners = np.count_nonzero(corners == "●")
+        b_corners = np.count_nonzero(corners == "●")
+        w_corners = np.count_nonzero(corners == "○")
 
         blacks, whites = now_board.count_stones()
         dif_stones = blacks - whites
