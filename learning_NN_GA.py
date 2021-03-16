@@ -40,11 +40,11 @@ class Learning:
     
     def select_roulette(self, others, roulette_length):
         select_list = np.empty((0, 19), float)
-        min_score = others[6][0]
+        abs_min_score = abs(others[6][0])
         roulette_box = []
         i = 0
         for other in others:
-            for j in range(int(other[0] + min_score + 1)):
+            for j in range(max(1,int(other[0] + abs_min_score + 1))):
                 roulette_box.append(i)
             i += 1
 
