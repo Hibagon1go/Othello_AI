@@ -67,9 +67,8 @@ class Learning:
         ga_list = np.empty((0, 19) ,float)
         for i in gas:
             if individual_mutation > (random.randint(0, 100) / 100.0):
-                genom_list = np.array([])
+                mutation_genom = np.array([i[0]])
                 for genom in i[1:]:
-                    mutation_genom = np.array([i[0]])
                     if genom_mutation > (random.randint(0, 100) / 100.0):
                         mutation_genom = np.append(mutation_genom, np.random.normal(0.0,1.0))  
                     else:
