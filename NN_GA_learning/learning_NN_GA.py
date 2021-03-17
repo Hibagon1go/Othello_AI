@@ -56,7 +56,7 @@ class Learning:
         for k in range(roulette_length):
             idx = random.randint(0, len(roulette_box)-1)
             choice_idx = roulette_box[idx]
-            select_list = np.append(select_list, others[choice_idx].reshape(1, 19), axis = 0)
+            select_list = np.append(select_list, others[choice_idx].reshape(1, 61), axis = 0)
 
         return select_list
         
