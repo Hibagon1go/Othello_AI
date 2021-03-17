@@ -1,15 +1,16 @@
-import boards, random_com, nn
+import boards, nn
 import numpy as np
+import random
 
 class Othello:
 
-    def play(self, w1, w2):
+    def play(self, w1, w2, w1_2, w2_2):
         board = boards.Board() # オセロ盤インスタンスを生成
 
         B_or_W = "BLACK"
         
         computer1 = nn.NN() # コンピューター1インスタンスを生成
-        computer2 = random_com.Computer() # コンピューター2インスタンスを生成
+        computer2 = nn.NN() # コンピューター2インスタンスを生成
 
         total_moves = 0 # 総手数を初期化
 
@@ -23,15 +24,17 @@ class Othello:
             # -----------------------------------------コンピューター2の手番の処理----------------------------------------- #
             if not board.is_pass("WHITE"):
                 total_moves += 1 
-                y, x = computer2.random_think("WHITE", board) # コンピューター2の打つマスを決定し、受け取り
+                y, x = computer2.nn_think(w1_2, w2_2, board) # コンピューター2の打つマスを決定し、受け取り
                 board.reverse_othello("WHITE", y, x)
        
         self.show_result(B_or_W, board) # 最終結果表示
         blacks, whites = board.count_stones()
-        score_and_w_matrix = np.array([blacks - whites])
-        tmp = np.append(w1.flatten(), w2.flatten())
-        score_and_w_matrix = np.append(score_and_w_matrix, tmp)
-        return score_and_w_matrix
+        if blacks > whites:
+            score = 1
+        else:
+            score = 0
+            
+        return score
 
 
     def show_result(self, B_or_W, board):
