@@ -6,8 +6,6 @@ class Othello:
 
     def play(self, w1, w2, w1_2, w2_2):
         board = boards.Board() # オセロ盤インスタンスを生成
-
-        B_or_W = "BLACK"
         
         computer1 = nn.NN() # コンピューター1インスタンスを生成
         computer2 = nn.NN() # コンピューター2インスタンスを生成
@@ -18,26 +16,26 @@ class Othello:
             # -------------------------------------------コンピューター1の手番の処理------------------------------------------- #
             if not board.is_pass("BLACK"):
                 total_moves += 1 
-                y, x = computer1.nn_think(w1, w2, board) # コンピューター1の打つマスを決定し、受け取り
+                y, x = computer1.nn_think("BLACK", w1, w2, board) # コンピューター1の打つマスを決定し、受け取り
                 board.reverse_othello("BLACK", y, x) 
  
             # -----------------------------------------コンピューター2の手番の処理----------------------------------------- #
             if not board.is_pass("WHITE"):
                 total_moves += 1 
-                y, x = computer2.nn_think(w1_2, w2_2, board) # コンピューター2の打つマスを決定し、受け取り
+                y, x = computer2.nn_think("WHITE", w1_2, w2_2, board) # コンピューター2の打つマスを決定し、受け取り
                 board.reverse_othello("WHITE", y, x)
        
-        self.show_result(B_or_W, board) # 最終結果表示
+        self.show_result(board) # 最終結果表示
         blacks, whites = board.count_stones()
-        if blacks > whites:
+        if blacks >= whites:
             score = 1
         else:
             score = 0
-            
+
         return score
 
 
-    def show_result(self, B_or_W, board):
+    def show_result(self, board):
         blacks, whites = board.count_stones()
         board.print()
         print("----------最終結果----------")
