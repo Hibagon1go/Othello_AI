@@ -45,7 +45,7 @@ class Learning:
         roulette_box = []
         i = 0
         for other in others:
-            for j in range(max(1,int(10*(other[0] + abs_min_score))):
+            for j in range(max(1,int(10*(other[0] + abs_min_score)))):
                 roulette_box.append(i)
             i += 1
 
