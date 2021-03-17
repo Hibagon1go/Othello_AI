@@ -9,8 +9,10 @@ class NN:
     def create_vector(self, board):
         now_board = copy.deepcopy(board)
         corners = np.array([now_board.access(0, 0), now_board.access(0, 7), now_board.access(7, 0), now_board.access(7, 7)])
+        mid_corners = np.array([now_board.access(2, 2), now_board.access(2, 5), now_board.access(5, 2), now_board.access(5, 5)])
         centers = np.array([now_board.access(3, 3), now_board.access(3, 4), now_board.access(4, 3), now_board.access(4, 4)])
         dif_corners = np.count_nonzero(corners == "●") - np.count_nonzero(corners == "○")
+        dif_mid_corners = np.count_nonzero(mid_corners == "●") - np.count_nonzero(mid_corners == "○")
         dif_centers = np.count_nonzero(centers == "●") - np.count_nonzero(centers == "○")
 
         b_corners = np.count_nonzero(corners == "●")
@@ -18,11 +20,11 @@ class NN:
 
         blacks, whites = now_board.count_stones()
         dif_stones = blacks - whites
-        num_blanks = np.count_nonzero(now_board == "×")
+        # num_blanks = np.count_nonzero(now_board == "×")
 
         num_availables = now_board.availables("BLACK").shape[0]
         
-        vector = np.array([dif_corners, dif_centers, dif_stones, num_blanks, num_availables]).reshape(5,1)
+        vector = np.array([dif_corners, dif_mid_corners, dif_centers, dif_stones, num_availables]).reshape(5,1)
         return vector
     
     def evaluation(self, w1 , w2, board):
