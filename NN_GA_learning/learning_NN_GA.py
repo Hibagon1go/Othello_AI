@@ -11,16 +11,16 @@ class Learning:
 
     def one_cycle(self, gas):
         score_and_w_matrixes = self.calc_score_and_w_matrix(gas)
-        elite, others = self.select_elite(score_and_w_matrixes, 10)
-        others = self.select_roulette(others, 10)
+        elite, others = self.select_elite(score_and_w_matrixes, 15)
+        others = self.select_roulette(others, 5)
         gas = np.append(elite, others, axis = 0)
         new_gas = np.empty((0, 19), float)
         for j in range(50):
-                first, second = np.random.randint(0, 5, 2)
+                first, second = np.random.randint(0, 20, 2)
                 new_first, new_second = self.crossover(gas[first], gas[second])
                 new_gas = np.append(new_gas, new_first, axis = 0)
                 new_gas = np.append(new_gas, new_second, axis = 0)
-        new_gas = self.mutation(new_gas, 0.1, 0.3)
+        new_gas = self.mutation(new_gas, 0.05, 0.3)
         
         return new_gas
 
@@ -41,11 +41,11 @@ class Learning:
     
     def select_roulette(self, others, roulette_length):
         select_list = np.empty((0, 19), float)
-        abs_min_score = abs(others[9][0])
+        abs_min_score = abs(others[others.shape[0]-1][0])
         roulette_box = []
         i = 0
         for other in others:
-            for j in range(max(1,int(other[0] + abs_min_score + 1))):
+            for j in range(max(1,int(10*(other[0] + abs_min_score))):
                 roulette_box.append(i)
             i += 1
 
