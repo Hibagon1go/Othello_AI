@@ -31,7 +31,7 @@ class Learning:
 
     def calc_score_and_w_matrix(self, gas):
         score_and_w_matrixes = np.empty((0, 61), float)
-        for i in range(100):
+        for i in range(50):
             w1, w2 = self.receive_w_matrix(gas[i])
             score_and_w_matrixes = np.append(score_and_w_matrixes, play_NN_GA.Othello().play(w1, w2).reshape(1, 61), axis = 0)
         
