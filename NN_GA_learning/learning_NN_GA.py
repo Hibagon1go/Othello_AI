@@ -14,7 +14,7 @@ class Learning:
     def one_cycle(self, gas):
         score_and_w_matrixes = self.calc_score_and_w_matrix(gas) # 引数で受け取った世代のオセロAI同士を総当たりで戦わせて、各個体のスコア(強さ)を計算
         elite, others = self.select_elite(score_and_w_matrixes, 2) # スコアの良い個体2個体をエリートとして次世代に残す
-        others = self.select_roulette(others, 7) # その他に、スコアの高い個体を中心に7個体を次世代に残す
+        others = self.select_roulette(others, 5) # その他に、スコアの高い個体を中心に5個体を次世代に残す
         son_elite1, son_elite2 = self.crossover(elite[0], elite[1]) # エリートの子供を作り、それも次世代に残す
         # 残す個体を次世代(new_gas)に追加していく
         new_gas = np.empty((0, 61), float)
@@ -22,10 +22,11 @@ class Learning:
         new_gas = np.append(new_gas, others, axis = 0)
         new_gas = np.append(new_gas, son_elite1, axis = 0)
         new_gas = np.append(new_gas, son_elite2, axis = 0)
-        # 最後に現世代からランダムに親を選び、その子供を作ることで16個体を次世代に残す
+        # 最後に現世代から、スコアの高い個体を中心に親を選び、その子供を作ることで16個体を次世代に残す
         for j in range(8):
-                first, second = np.random.randint(0, 25, 2)
-                new_first, new_second = self.crossover(score_and_w_matrixes[first], score_and_w_matrixes[second])
+                parents = self.select_roulette(score_and_w_matrixes, 2)
+                parents1, parents2 = parents[0], parents[1]
+                new_first, new_second = self.crossover(parents1, parents2)
                 new_gas = np.append(new_gas, new_first, axis = 0)
                 new_gas = np.append(new_gas, new_second, axis = 0)
         # 次世代の個体に一定確率で突然変異を起こす
@@ -59,21 +60,21 @@ class Learning:
         elite, others = score_and_w_matrixes_sort_col_num[:elite_length], score_and_w_matrixes_sort_col_num[elite_length:] # 上からelite_length個をエリートとして残す
         return elite, others
     
-    # エリートでない個体から、スコアの大きい個体中心に選ぶ
-    def select_roulette(self, others, roulette_length):
+    # 個体のセットから、スコアの大きい個体中心に選ぶ
+    def select_roulette(self, gas, roulette_length):
         select_list = np.empty((0, 61), float)
         roulette_box = []
         i = 0
         # 各個体のスコアの分だけ、その個体のindexをルーレット箱に追加
-        for other in others:
-            for j in range(int(other[0])):
+        for kotai in gas:
+            for j in range(int(kotai[0])):
                 roulette_box.append(i)
             i += 1
         # roulette_length回、ランダムにルーレット箱からindexをピックアップし、そのindexの個体をselect_listに追加
         for k in range(roulette_length):
             idx = random.randint(0, len(roulette_box)-1)
             choice_idx = roulette_box[idx]
-            select_list = np.append(select_list, others[choice_idx].reshape(1, 61), axis = 0)
+            select_list = np.append(select_list, gas[choice_idx].reshape(1, 61), axis = 0)
 
         return select_list
         
