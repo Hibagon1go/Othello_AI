@@ -8,10 +8,10 @@ class Board:
         BLANK = "×" 
         # オセロ盤を初期化
         self.board = np.full((8, 8), BLANK)
-        self.board[3][3] = WHITE
-        self.board[4][4] = WHITE
         self.board[3][4] = BLACK
         self.board[4][3] = BLACK
+        self.board[3][3] = WHITE
+        self.board[4][4] = WHITE
 
     def print(self): # 盤面を表示させる
         print(self.board)

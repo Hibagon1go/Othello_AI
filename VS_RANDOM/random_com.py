@@ -1,7 +1,7 @@
 import numpy as np
 
 class Computer:
-
+    # 現在置けるマスからランダムに選択
     def random_think(self, B_or_W, board):
         BLANK = "×"
         now_availables = board.availables(B_or_W)

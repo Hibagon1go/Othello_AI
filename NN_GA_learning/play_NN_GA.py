@@ -27,6 +27,8 @@ class Othello:
        
         self.show_result(board) # 最終結果表示
         blacks, whites = board.count_stones()
+        
+        # 先手が勝利した場合スコア1を獲得 (今回、先手のコンピューター1について学習を行う)
         if blacks >= whites:
             score = 1
         else:
